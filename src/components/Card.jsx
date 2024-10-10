@@ -1,30 +1,47 @@
 import { FaRegFileAlt } from "react-icons/fa";
-import { LuDownload } from "react-icons/lu";
-import { IoClose } from "react-icons/io5";
+import { RiDeleteBin6Line } from "react-icons/ri";
 import { motion } from "framer-motion";
 
-function Card({ data ,reference }) {
+function Card({ todo, reference }) {
+  // Get the current date
+  const currentDate = new Date();
+  // Extract the day and month
+  const day = currentDate.getDate();
+  const month = currentDate.toLocaleString("default", { month: "long" });
+  const year = currentDate.getFullYear();
   return (
-    <motion.div drag dragConstraints={reference} whileDrag={{scale:1.2}} className=" relative flex-shrink-0 w-60 h-72 rounded-[45px] bg-zinc-900/90 text-white px-8 py-10 overflow-hidden">
-      <FaRegFileAlt />
-
-      <p className="text-sm leading-tight mt-5 font-semibold">{data.Desc}</p>
+    <motion.div
+      drag
+      dragConstraints={reference}
+      whileDrag={{ scale: 1.2 }}
+      className=" relative flex-shrink-0 w-52 h-64 rounded-[45px] bg-zinc-900/90 text-white px-5 py-6 overflow-hidden"
+    >
+      <div className="flex items-center gap-5">
+        <FaRegFileAlt />
+        <div className="font-serif font-medium">
+          {day} {month} {year}
+        </div>
+      </div>
+      <h2 className="text-lg font-bold line-clamp-2 mt-1 leading-5">
+        {todo.title}
+      </h2>
+      <p className="text-sm leading-tight mt-3 font-serif ">
+        {todo.description}
+      </p>
       <div className="footer absolute bottom-0 w-full left-0 ">
-        <div className="flex items-center justify-between px-8 py-3 mb-3">
-          <h5>{data.filesize}</h5>
-          <span className="w-7 h-5 bg-zinc-600 rounded-full flex items-center justify-center">
-            {data.close ? (
-              <IoClose size=".7em" color="#fff" />
-            ) : (
-              <LuDownload size=".7em" color="#fff" />
-            )}
+        <div className="flex items-center justify-between px-6 py-2 mb-2">
+          <h5>{todo.priority}</h5>
+          <span className="w-6 h-6 bg-zinc-600 rounded-full flex items-center justify-center">
+            <RiDeleteBin6Line size=".9em" color="#fff" />
           </span>
         </div>
-        {data.tag.isOpen && (
-          <div className={`tag w-full py-4 bg-${data.tag.tagColor}-600 flex items-center justify-center`}>
-            <h3 className="text sm font-semibold">{data.tag.tagTitle}</h3>
-          </div>
-        )}
+
+        <div
+          className="tag w-full py-2 flex items-center justify-center"
+          style={{ backgroundColor: `${todo.color}` }}
+        >
+          <h2 className="text-lg font-medium">Due Date: {todo.dueDate}</h2>
+        </div>
       </div>
     </motion.div>
   );
